@@ -43,10 +43,12 @@ the value when in edit mode. Edit mode is activated when button 1 is held for 1 
 The cursor will flash when in edit mode. Holding button 1 in edit mode will save
 and exit edit mode.
 
+![GRGC1 Geiger Counter](./grcg1.wall.jpg)
+
 ```
 Screen 1:
 
-    HH:MM:SS *SBBB
+    HH:MM:SS    *S
     DD/MM/YYYY
     ╔════════════╗
     ║ 0.12 µSv/h ║
@@ -61,14 +63,16 @@ Screen 2:
     ID:   20000000
     Firmware: 2.01
     Tube:     J305
+    SSID:    GRGC1
     Mode:  ESPHome
 
     Unit ID, and Mode are settable.
     Unit ID is only useful with a non ESPHome standalone firmware which is not
     applicable for this use case. However it can be set to identify a sensor.
-    Mode has three values online, offline and ESPHome. Online/Offline modes are
+    Mode has three values Online, Offline and ESPHome. Online/Offline modes are
     specific to a standalone state running non-esphome code and is not usefull
-    when using ESPhome code on the ESP01 module.
+    when using ESPhome code on the ESP01 module. The SSID is the default AP SSID
+    used in the example yaml config and is overidable but is not updated currently.
 
 Screen 3:
 
@@ -77,7 +81,8 @@ Screen 3:
     IP:
     0.0.0.0
 
-    Log and log interval can be set for standalone offline/online mode.
+    Log and log interval can be set for standalone Offline/Online mode however it
+    does not interact with the ESPHome code.
 ```
 Powerdown/Standby and Reset
 ===========================
@@ -88,16 +93,18 @@ Holding Button 1 and 2 for 1 second will place the unit in or out of power stand
 
 ESPHome configuration:
 
-    The following example configuration file can be used to connect up the GRGC1
-    Geiger Counter. The unit is preloaded with the captive portal enabled. It
-    will host an AP SSID of GRCG1 with no password allowing you to conviently
-    connect to your WiFi with a phone etc.
+The following example configuration file can be used to connect up the GRGC1
+Geiger Counter. The unit is preloaded with the captive portal enabled. It
+will host an AP SSID of GRCG1 with no password allowing you to conviently
+connect to your WiFi with a phone etc.
 
 ```
 external_components:
-  # pull geiger from Github @descipher branch in GitHub
-  - source: github://gelidusresearch/gc1
+  # pull geiger from Github @gelidusresearch grgc1 repo
+  - source: github://gelidusresearch/grgc1
     components: [ geiger ]
+
+
 
 esphome:
   name: geiger-1
