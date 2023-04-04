@@ -7,11 +7,13 @@ optional onboard ESP8266 ESP01 module. GC1 can provide the data outputs in stand
 as well using the LCD or over its local USB serial port at a rate of 38400 baud. The local
 LCD time and date is automatically set when connected to ESPHome.
 
+While not required for this application the GRCG1 accepts a single LiFePO4 3.2V 18650 battery. (Note: Only the specified 3.2V cell can be used. Do not install any other types.)
+
 When connected to ESPHome the component can provide the following sensor data.
 
-Geiger Tube radiation detected in averaged Counts Per Minute and Counts per Second. The
-oprating Geiger tube voltage is alse available if desired. Calculated exposure dosage is
-provided in Seiverts per hour.
+Geiger Tube radiation detected in averaged counts per minute (CPM) and counts per second CPS.
+The operating tube voltage is alse available if desired. Exposure dosage is calculated and sent
+as micro Seiverts per hour.
 
 The GC1's embedded code natively supports the following tubes:
 
@@ -48,7 +50,7 @@ and exit edit mode.
 ```
 Screen 1:
 
-    HH:MM:SS    *S
+    HH:MM:SS *SBBB
     DD/MM/YYYY
     ╔════════════╗
     ║ 0.12 µSv/h ║
@@ -68,11 +70,11 @@ Screen 2:
 
     Unit ID, and Mode are settable.
     Unit ID is only useful with a non ESPHome standalone firmware which is not
-    applicable for this use case. However it can be set to identify a sensor.
+    applicable for this use case. However it can be locally set to identify a sensor.
     Mode has three values Online, Offline and ESPHome. Online/Offline modes are
     specific to a standalone state running non-esphome code and is not usefull
     when using ESPhome code on the ESP01 module. The SSID is the default AP SSID
-    used in the example yaml config and is overidable but is not updated currently.
+    used in the example yaml config and is overidable but is not currently updated.
 
 Screen 3:
 
@@ -82,7 +84,8 @@ Screen 3:
     0.0.0.0
 
     Log and log interval can be set for standalone Offline/Online mode however it
-    does not interact with the ESPHome code.
+    does not interact with the ESPHome code. The IP address will be updated from the ESP01
+    module once it is available.
 ```
 Powerdown/Standby and Reset
 ===========================
@@ -96,15 +99,14 @@ ESPHome configuration:
 The following example configuration file can be used to connect up the GRGC1
 Geiger Counter. The unit is preloaded with the captive portal enabled. It
 will host an AP SSID of GRCG1 with no password allowing you to conviently
-connect to your WiFi with a phone etc.
+connect to your WiFi with a phone etc. Always use the api and ota passwords generated
+by ESPHome's code. The sample value is for clarity only.
 
 ```
 external_components:
   # pull geiger from Github @gelidusresearch grgc1 repo
   - source: github://gelidusresearch/grgc1
     components: [ geiger ]
-
-
 
 esphome:
   name: geiger-1
@@ -116,6 +118,14 @@ esp8266:
 logger:
   baud_rate: 0
 
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "2jemlP7CMyb6Y68RnbfLNWvMxKb1ziKWGRUqCeZeoNE="
+
+ota:
+  password: "624dff228eba6efdec80c5cdf50f43b8"
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
@@ -123,14 +133,13 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: GRGC1
-    password: ""
+    password: !secret captive_password
 
 captive_portal:
 
 web_server:
   port: 80
   version: 2
-
 
 uart:
   tx_pin: GPIO1
@@ -156,7 +165,6 @@ sensor:
     geiger_sound: false
     geiger_tube: SBM20
     time_id: sntp_time
-
 
 switch:
   - platform: restart
