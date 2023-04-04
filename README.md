@@ -11,9 +11,8 @@ While not required for this application the GRCG1 accepts a single LiFePO4 3.2V 
 
 When connected to ESPHome the component can provide the following sensor data.
 
-Geiger Tube radiation detected in averaged counts per minute (CPM) and counts per second CPS.
-The operating tube voltage is alse available if desired. Exposure dosage is calculated and sent
-as micro Seiverts per hour.
+Geiger Tube radiation detected in averaged counts per minute (CPM) and counts per second (CPS).
+The operating tube voltage is also available. Exposure dosage is calculated and published in micro Seiverts per hour.
 
 The GC1's embedded code natively supports the following tubes:
 
@@ -101,6 +100,8 @@ Geiger Counter. The unit is preloaded with the captive portal enabled. It
 will host an AP SSID of GRCG1 with no password allowing you to conviently
 connect to your WiFi with a phone etc. Always use the api and ota passwords generated
 by ESPHome's code. The sample value is for clarity only.
+
+![GRGC1 Geiger Counter - ESPhome](./grgc1.web.jpg)
 
 ```
 external_components:
