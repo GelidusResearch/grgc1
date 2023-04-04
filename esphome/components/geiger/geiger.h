@@ -80,8 +80,8 @@ class GEIGER : public PollingComponent, public uart::UARTDevice {
   void update() override;
 
   #ifdef USE_TIME
-    /** Set the `time::RealTimeClock` implementation. */
-    void set_time_id(time::RealTimeClock *time_id) { this->time_id_ = time_id; }
+    /** Set the `RealTimeClock` implementation. */
+    void set_time_id(RealTimeClock *time_id) { this->time_id_ = time_id; }
     /** Attempts to sync the local time (via `time_id`) to the Geiger device. */
     void send_local_time();
   #endif
@@ -106,7 +106,7 @@ protected:
   #ifdef USE_TIME
     /** Initializes time sync callbacks to support syncing current time to the BedJet. */
     void setup_time_();
-    optional<time::RealTimeClock *> time_id_{};
+    optional<RealTimeClock *> time_id_{};
   #endif
 
   struct GRGC1_Config {

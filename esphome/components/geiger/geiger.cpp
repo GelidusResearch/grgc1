@@ -55,7 +55,7 @@ void GEIGER::update() {
   if (this->model_ == GEIGER_MODEL_GRGC1) {
     if (this->time_id_.has_value()) {
       auto *time_id = *this->time_id_;
-      time::ESPTime now = time_id->now();
+      ESPTime now = time_id->now();
       if (now.is_valid()) {
         // We are good to go
       } else { time_id->timestamp_now();}
@@ -155,7 +155,7 @@ void GEIGER::send_local_time() {
   if (this->model_ == GEIGER_MODEL_GRGC1) {
     if (this->time_id_.has_value()) {
       auto *time_id = *this->time_id_;
-      time::ESPTime tm = time_id->now();
+      ESPTime tm = time_id->now();
       if (tm.is_valid()) {
         this->set_gc_clock(tm.hour, tm.minute, tm.second, tm.day_of_month, tm.month, tm.year);
         ESP_LOGD(TAG, "Using time component to set geiger clock: %02d:%02d:%02d %02d/%02d/%d", tm.hour, tm.minute, tm.second, tm.day_of_month ,tm.month, tm.year);

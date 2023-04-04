@@ -7,13 +7,14 @@ optional onboard ESP8266 ESP01 module. GC1 can provide the data outputs in stand
 as well using the LCD or over its local USB serial port at a rate of 38400 baud. The local
 LCD time and date is automatically set when connected to ESPHome.
 
-While not required for this application the GRCG1 accepts a single LiFePO4 3.2V 18650 battery. (Note: Only the specified 3.2V cell can be used. Do not install any other types.)
+While not required for this application the GRGC1 accepts a single LiFePO4 3.2V 18650 battery. (Note: Only the specified 3.2V cell can be used. Do not install any other types.)
+
+![GRGC1 Geiger Counter - Battery Option](./grgc1.back.jpg)
 
 When connected to ESPHome the component can provide the following sensor data.
 
-Geiger Tube radiation detected in averaged counts per minute (CPM) and counts per second CPS.
-The operating tube voltage is alse available if desired. Exposure dosage is calculated and sent
-as micro Seiverts per hour.
+Geiger Tube radiation detected in averaged counts per minute (CPM) and counts per second (CPS).
+The operating tube voltage is also available. Exposure dosage is calculated and published in micro Seiverts per hour.
 
 The GC1's embedded code natively supports the following tubes:
 
@@ -101,6 +102,8 @@ Geiger Counter. The unit is preloaded with the captive portal enabled. It
 will host an AP SSID of GRCG1 with no password allowing you to conviently
 connect to your WiFi with a phone etc. Always use the api and ota passwords generated
 by ESPHome's code. The sample value is for clarity only.
+
+![GRGC1 Geiger Counter - ESPHome](./grgc1.web.jpg)
 
 ```
 external_components:
