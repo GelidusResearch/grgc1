@@ -103,7 +103,7 @@ will host an AP SSID of GRCG1 with no password allowing you to conviently
 connect to your WiFi with a phone etc. Always use the api and ota passwords generated
 by ESPHome's code. The sample value is for clarity only.
 
-![GRGC1 Geiger Counter - ESPHome](./grgc1.web.jpg)
+![GRGC1 Geiger Counter - ESPhome](./grgc1.web.jpg)
 
 ```
 external_components:

@@ -9,9 +9,8 @@
 #include "esphome/components/network/ip_address.h"
 #include "esphome/components/network/util.h"
 #include "esphome/components/sensor/sensor.h"
-#ifdef USE_TIME
 #include "esphome/components/time/real_time_clock.h"
-#endif
+#include "esphome/core/time.h"
 #include "esphome/components/wifi/wifi_component.h"
 #include "esphome/components/uart/uart.h"
 #include <vector>
@@ -79,12 +78,10 @@ class GEIGER : public PollingComponent, public uart::UARTDevice {
   void dump_config() override;
   void update() override;
 
-  #ifdef USE_TIME
-    /** Set the `RealTimeClock` implementation. */
-    void set_time_id(RealTimeClock *time_id) { this->time_id_ = time_id; }
-    /** Attempts to sync the local time (via `time_id`) to the Geiger device. */
-    void send_local_time();
-  #endif
+  //void set_time_id(ESPTime *time_id) { this->time_id_ = time_id; }
+  void set_time_id(time::RealTimeClock *time_id) { this->time_id_ = time_id; }
+  /** Attempts to sync the local time (via `time_id`) to the Geiger device. */
+  void send_local_time();
   void set_gc_clock(uint8_t hour, uint8_t minute, uint8_t second, uint8_t month, uint8_t day , uint16_t year);
 
 protected:
@@ -103,11 +100,10 @@ protected:
   sensor::Sensor *geiger_dose_{nullptr};
   sensor::Sensor *geiger_voltage_{nullptr};
 
-  #ifdef USE_TIME
-    /** Initializes time sync callbacks to support syncing current time to the BedJet. */
-    void setup_time_();
-    optional<RealTimeClock *> time_id_{};
-  #endif
+  /** Initializes time sync callbacks to support syncing current time to the BedJet. */
+  void setup_time_();
+  //optional<ESPTime *> time_id_{};
+  optional<time::RealTimeClock *> time_id_{};
 
   struct GRGC1_Config {
     char ssid_[32];

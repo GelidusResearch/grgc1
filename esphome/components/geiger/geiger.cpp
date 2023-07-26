@@ -31,12 +31,11 @@ void GEIGER::setup() {
   ESP_LOGCONFIG(TAG, "Setting up Geiger Counter ...");
 
   if (this->model_ == GEIGER_MODEL_GRGC1) {
-    this->write_byte(10); // Flush remote buffer data                                                                                                                                                                                                                 if any
+    this->write_byte(10); // Flush remote buffer data if any
     this->write_str(getConfig);
     addr = network::get_ip_address();
-    #ifdef USE_TIME
-      setup_time_();
-    #endif
+    setup_time_();
+
   }
 }
 
@@ -51,16 +50,14 @@ void GEIGER::dump_config() {
 
 void GEIGER::update() {
 
-  #ifdef USE_TIME
   if (this->model_ == GEIGER_MODEL_GRGC1) {
     if (this->time_id_.has_value()) {
       auto *time_id = *this->time_id_;
-      ESPTime now = time_id->now();
-      if (now.is_valid()) {
+      ESPTime tm = time_id->now();
+      if (tm.is_valid()) {
         // We are good to go
-      } else { time_id->timestamp_now();}
+      } else { time_id->timestamp_now(); }
     }
-  #endif
   this->write_str(getData);
   }
 
@@ -149,8 +146,6 @@ bool GEIGER::set_gc_config_() {
 }
 
 /* Time */
-#ifdef USE_TIME
-
 void GEIGER::send_local_time() {
   if (this->model_ == GEIGER_MODEL_GRGC1) {
     if (this->time_id_.has_value()) {
@@ -177,7 +172,6 @@ void GEIGER::setup_time_() {
     }
   }
 }
-#endif
 
 }  // namespace geiger
 }  // namespace esphome
